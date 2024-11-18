@@ -1,33 +1,48 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import posts from './database/db'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+
+  const [addPosts, setAddPosts] = useState(posts)
+  const [newPost, setNewPost] = useState('')
+
+  function addPost(e) {
+
+
+    e.preventDefault()
+    console.log(addPosts);
+
+    setAddPosts([
+      ...addPosts,
+      newPost
+    ])
+
+    setNewPost('')
+  }
+
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+      <div className="containter mt-3">
+        <form onSubmit={addPost}>
+          <div className="input-group mb-3">
+            <label htmlFor="task" className='farm-label m-3'>Post</label>
+            <div className="input-group mb-3">
+              <input type="text" className="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="basic-addon2" value={newPost} onChange={e => setNewPost(e.target.value)} />
+
+              <button className='btn btn-outline-secondary' type='submit'> Click ME</button>
+            </div>
+          </div>
+        </form>
+
+        <ul className="list-group">
+          {posts.map((post, index) => <li key={index} className="list-group-item d-flex justify-content-between">
+
+            {post}
+          </li>)}
+        </ul>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
   )
 }
